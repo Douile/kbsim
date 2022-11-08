@@ -21,7 +21,7 @@ struct CliOpt {
         long = "layout",
         short = "l",
         help = "The keyboard layout to use. Specify 'list' to show all available layouts",
-        default_value = "LAYOUT_US_ENGLISH"
+        default_value = "LAYOUT_UNITED_KINGDOM"
     )]
     layout: String,
     #[structopt(
