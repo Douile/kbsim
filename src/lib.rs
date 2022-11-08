@@ -8,7 +8,8 @@ use std::fmt;
 
 const UNICODE_ENTER: u16 = 10; // \n
 const UNICODE_TAB: u16 = 9; // \t
-// https://stackoverflow.com/questions/23320417/what-is-this-character-separator
+                            // https://stackoverflow.com/questions/23320417/what-is-this-character-separator
+const UNICODE_RETURN: u16 = 13; // \r
 const CONTROL_CHARACTER_OFFSET: u16 = 0x40;
 const UNICODE_FIRST_ASCII: u16 = 0x20; // SPACE
 const UNICODE_LAST_ASCII: u16 = 0x7F; // BACKSPACE
@@ -146,7 +147,9 @@ pub fn string_to_hid_packets(layout_key: &str, string: &str) -> Result<Bytes, Er
 
 fn keycode_for_unicode(layout: &Layout, unicode: u16) -> Keycode {
     match unicode {
-        u if u == UNICODE_ENTER => Keycode::RegularKey(ENTER_KEYCODE & layout.keycode_mask),
+        u if u == UNICODE_ENTER || u == UNICODE_RETURN => {
+            Keycode::RegularKey(ENTER_KEYCODE & layout.keycode_mask)
+        }
         u if u == UNICODE_TAB => Keycode::RegularKey(TAB_KEYCODE & layout.keycode_mask),
         u if u < UNICODE_FIRST_ASCII => {
             let idx = ((u + CONTROL_CHARACTER_OFFSET) - UNICODE_FIRST_ASCII) as usize;
